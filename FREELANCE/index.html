@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Freelance Platform</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #111827;
+      color: #fff;
+      margin: 0;
+      padding: 2rem;
+    }
+
+    h2 {
+      margin-top: 0;
+    }
+
+    .grid-container {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    .card {
+      background: #1f2937;
+      padding: 2rem;
+      border-radius: 16px;
+      box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
+      transition: all 0.3s ease;
+    }
+
+    .card:hover {
+      box-shadow: 0 0 40px rgba(99, 102, 241, 0.7);
+      transform: scale(1.01);
+    }
+
+    input, textarea, button {
+      width: 100%;
+      padding: 1rem;
+      margin: 1rem 0;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      background: #374151;
+      color: #fff;
+    }
+
+    button {
+      background: linear-gradient(to right, #6366f1, #8b5cf6);
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .bid {
+      background: #4b5563;
+      margin: 0.5rem 0;
+      padding: 1rem;
+      border-radius: 8px;
+    }
+
+    #projectOutput {
+      margin-top: 1rem;
+      font-size: 0.95rem;
+      color: #ddd;
+    }
+
+    @media (min-width: 768px) {
+      .grid-container {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1 style="text-align:center; color: #a78bfa;">🚀 Freelance Price Predictor Platform</h1>
+
+  <div class="grid-container">
+    <!-- Price Prediction -->
+    <div class="card">
+      <h2>🔮 Price Prediction</h2>
+      <input type="text" id="skills" placeholder="Enter skills (e.g. React, Firebase)">
+      <input type="number" id="days" placeholder="Timeline (in days)">
+      <button onclick="predictPrice()">Predict Price</button>
+      <h3 id="result"></h3>
+    </div>
+
+    <!-- Post a Project -->
+    <div class="card">
+      <h2>📢 Post a Project</h2>
+      <input type="text" id="jobTitle" placeholder="Project Title">
+      <textarea id="jobDesc" placeholder="Describe the project"></textarea>
+      <button onclick="postProject()">Post Project</button>
+      <div id="projectOutput"></div>
+    </div>
+
+    <!-- Submit a Bid -->
+    <div class="card">
+      <h2>💸 Submit a Bid</h2>
+      <input type="text" id="freelancerName" placeholder="Your Name">
+      <input type="number" id="bidAmount" placeholder="Your Bid (₹)">
+      <button onclick="submitBid()">Submit Bid</button>
+      <div id="bidList"></div>
+    </div>
+  </div>
+
+  <script>
+    let bids = [];
+
+    async function predictPrice() {
+      const skills = document.getElementById("skills").value;
+      const timeline_days = document.getElementById("days").value;
+
+      try {
+        const res = await fetch("http://127.0.0.1:5000/predict", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ skills, timeline_days })
+        });
+
+        const data = await res.json();
+        document.getElementById("result").innerText = `💰 Estimated Price: ₹${data.predicted_price}`;
+      } catch (err) {
+        console.error(err);
+        document.getElementById("result").innerText = "❌ Prediction failed.";
+      }
+    }
+
+    function postProject() {
+      const title = document.getElementById("jobTitle").value;
+      const desc = document.getElementById("jobDesc").value;
+      if (title && desc) {
+        document.getElementById("projectOutput").innerHTML = `<b>${title}</b><p>${desc}</p>`;
+      }
+    }
+
+    function submitBid() {
+      const name = document.getElementById("freelancerName").value;
+      const amount = document.getElementById("bidAmount").value;
+      if (name && amount) {
+        bids.push({ name, amount });
+        renderBids();
+      }
+    }
+
+    function renderBids() {
+      const bidList = document.getElementById("bidList");
+      bidList.innerHTML = "";
+      bids.forEach((bid, i) => {
+        bidList.innerHTML += `<div class="bid"><strong>${bid.name}</strong> - ₹${bid.amount}</div>`;
+      });
+    }
+  </script>
+</body>
+</html>
