@@ -44,9 +44,13 @@ Visit: http://127.0.0.1:8080
 ---
 👤 Author
 -Name: Anmol S Poojary
+
 -Email: anmolspoojary@gmail.com
+
 -GitHub: AnmolS05
+
 -LinkedIn: anmol-s-poojary
+
 ---
  Project Status
 ✅ MVP completed
