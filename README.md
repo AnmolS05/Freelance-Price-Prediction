@@ -42,14 +42,12 @@ python -m http.server 8080
 Visit: http://127.0.0.1:8080
 
 ---
-👤 Author
--Name: Anmol S Poojary
+## 👤 Author
 
--Email: anmolspoojary@gmail.com
-
--GitHub: AnmolS05
-
--LinkedIn: anmol-s-poojary
+- **Name:** Anmol S Poojary  
+- **Email:** anmolspoojary@gmail.com  
+- **GitHub:** [AnmolS05](https://github.com/AnmolS05)  
+- **LinkedIn:** [anmol-s-poojary](https://www.linkedin.com/in/anmol-s-poojary/)
 
 ---
  Project Status
